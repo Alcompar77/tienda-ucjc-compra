@@ -41,3 +41,11 @@ Requisito: **Node ≥ 20** (el workflow usa Node 22).
 
 Esta pieza exporta `{ nombre, version }` y registra su custom element al importar el módulo.
 
+
+### Tests
+
+```bash
+npm test
+```
+
+Comprueban el custom element, el `export default` y el flujo mínimo de eventos `@1`.
