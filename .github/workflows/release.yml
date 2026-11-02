@@ -1,0 +1,36 @@
+# Copiad este fichero a vuestro repo de pieza como .github/workflows/release.yml
+# En cada tag v*, construye y publica dist/ bajo gh-pages/<tag>/
+# sin borrar las versiones anteriores.
+name: release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+jobs:
+  pages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci && npm run build
+      - name: Publicar dist/ en gh-pages/${{ github.ref_name }}/
+        run: |
+          git fetch origin gh-pages || true
+          if git show-ref --verify --quiet refs/remotes/origin/gh-pages; then
+            git worktree add /tmp/pages gh-pages
+          else
+            git worktree add -b gh-pages /tmp/pages
+            rm -rf /tmp/pages/*
+          fi
+          mkdir -p "/tmp/pages/${GITHUB_REF_NAME}"
+          cp -r dist/* "/tmp/pages/${GITHUB_REF_NAME}/"
+          touch /tmp/pages/.nojekyll
+          cd /tmp/pages
+          git config user.name "release-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "release ${GITHUB_REF_NAME}"
+          git push origin HEAD:gh-pages
