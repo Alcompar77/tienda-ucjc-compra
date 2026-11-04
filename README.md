@@ -1,11 +1,12 @@
+
 # tienda-ucjc-compra
 
-| | |
-|---|---|
+|                               |                            |
+| ----------------------------- | -------------------------- |
 | **Pieza que posee el equipo** | Compra: carrito y checkout |
-| **Custom element** | `<ucjc-compra>` |
-| **Repositorio** | `tienda-ucjc-compra` |
-| **Responsable de equipo** | Adrián Pingarrón |
+| **Custom element**            | `<ucjc-compra>`            |
+| **Repositorio**               | `tienda-ucjc-compra`       |
+| **Responsable de equipo**     | Adrián Pingarrón           |
 
 ### Integrantes
 
@@ -17,17 +18,18 @@
 
 ### Eventos que consumimos
 
-| Evento | Origen | Datos |
-|---|---|---|
-| `ucjc:descubrimiento:anadir-al-carrito:v1` | Descubrimiento | `productoId`, `nombre`, `precio`, `cantidad` |
-| `ucjc:identidad:sesion-cambiada:v1` | Identidad | `autenticado` (boolean), `usuarioId`, `nombre` |
+| **Evento** | **Origen** | **Datos** |
+| ---------- | ---------- | --------- |
+| `ucjc:descubrimiento:anadir-al-carrito@1` | Descubrimiento | `productoId`, `nombre`, `precio`, `cantidad` |
+| `ucjc:identidad:sesion-cambiada@1` | Identidad | `autenticado` (boolean), `usuario` (objeto con `id`) |
 
 ### Eventos que emitimos
 
-| Evento | Destino | Datos|
-|---|---|---|
-| `ucjc:compra:pedido-confirmado:v1` | Datos | `pedidoId`, `usuarioId`, `lineas` (lista de `productoId`, `nombre`, `precio`, `cantidad`), `total`, `fecha` (ISO 8601) |
-| `ucjc:compra:carrito-actualizado:v1` _(opcional)_ | Quien quiera mostrar un contador | `totalArticulos`, `total` |
+| **Evento** | **Destino** | **Datos** |
+| ---------- | ----------- | --------- |
+| `ucjc:compra:pedido-confirmado@1` | Datos | `pedidoId`, `usuarioId`, `creadoEn` (ISO 8601), `total`, `lineas` (lista de `productoId`, `nombre`, `precio`, `cantidad`) |
+
+Compra genera el `pedidoId` al confirmar el pedido.
 
 ## Cómo se publica (contrato de carga del shell)
 
@@ -40,7 +42,6 @@ Requisito: **Node ≥ 20** (el workflow usa Node 22).
 5. URL esperada: `https://<usuario-o-org>.github.io/<repo>/v0.2.0/remote.js`.
 
 Esta pieza exporta `{ nombre, version }` y registra su custom element al importar el módulo.
-
 
 ### Tests
 
